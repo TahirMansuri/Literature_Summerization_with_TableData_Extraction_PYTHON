@@ -4,37 +4,55 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Enhanced Literature Summarization</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <header>
-        <nav>
-            <ul>
-                <li><a href="/">Home</a></li>
-                <li><a href="/login">Login</a></li> <!-- Link to Login Page -->
-                <li><a href="/register">Register</a></li> <!-- Link to Register Page -->
-            </ul>
-        </nav>
-    </header>
 
-    <main>
-        <section class="hero">
-            <h1>Welcome to Enhanced Literature Summarization</h1>
-            <p>This web application helps you summarize literature PDFs including text and table data extraction.</p>
-        </section>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Literature Summarization</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+      {% if current_user.is_authenticated %}
+      <li class="nav-item">
+        <a class="nav-link" href="#">Dashboard</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/logout">Logout</a>
+      </li>
+      {% else %}
+      <li class="nav-item">
+        <a class="nav-link" href="/login">Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/register">Register</a>
+      </li>
+      {% endif %}
+    </ul>
+  </div>
+</nav>
 
-        <section class="features">
-            <h2>Key Features:</h2>
-            <ul>
-                <li>Upload PDF documents</li>
-                <li>Extract text and table data</li>
-                <li>Receive summarized content</li>
-            </ul>
-        </section>
-    </main>
+<div class="container mt-5">
+    <div class="jumbotron">
+        <h1 class="display-4">Welcome to Enhanced Literature Summarization</h1>
+        <p class="lead">This web application helps you summarize literature PDFs including text and table data extraction.</p>
+        <hr class="my-4">
+        <p>Upload your documents, extract content, and receive summarized insights instantly!</p>
+        <a class="btn btn-primary btn-lg" href="/login" role="button">Get Started</a>
+    </div>
+</div>
 
-    <footer>
-        <p>&copy; 2024 Your Company Name. All rights reserved.</p>
-    </footer>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
