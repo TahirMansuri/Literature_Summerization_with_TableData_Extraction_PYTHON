@@ -6,3 +6,10 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(150), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(150), nullable=False)
+
+    def get_id(self):
+        return self.id
+
+    @property
+    def is_active(self):
+        return True
