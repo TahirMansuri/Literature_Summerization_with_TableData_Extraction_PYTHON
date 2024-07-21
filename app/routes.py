@@ -1,10 +1,21 @@
+import os
+
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from app.models import User
 from app import db
+from flask import flash, redirect, url_for, request
+from werkzeug.utils import secure_filename
 from app.login_logic import perform_login
 main = Blueprint('main', __name__)
+
+# Allowed extensions for file uploads
+ALLOWED_EXTENSIONS = {'pdf'}
+
+def allowed_file(filename):
+    return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
+
 
 @main.route('/')
 @main.route('/index')
@@ -52,3 +63,26 @@ def dashboard():
 def logout():
     logout_user()
     return redirect(url_for('main.index'))
+
+
+@main.route('/upload', methods=['POST'])
+@login_required
+def upload():
+    if 'file' not in request.files:
+        flash('No file part', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+    file = request.files['file']
+    if file.filename == '':
+        flash('No selected file', 'danger')
+        return redirect(url_for('main.dashboard'))
+
+    if file and allowed_file(file.filename):
+        filename = secure_filename(file.filename)
+        file.save(os.path.join('uploads/', filename))
+        # Save upload info to the database if needed
+        flash('File successfully uploaded', 'success')
+        return redirect(url_for('main.dashboard'))
+
+    flash('Invalid file type', 'danger')
+    return redirect(url_for('main.dashboard'))

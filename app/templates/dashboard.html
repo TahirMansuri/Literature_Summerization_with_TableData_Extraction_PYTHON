@@ -2,11 +2,39 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dashboard</title>
-
+    <link rel="stylesheet" href="{{ url_for('static', filename='dashboard.css') }}">
 </head>
 <body>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('main.index') }}">Home</a></li>
+            <li><a href="{{ url_for('main.dashboard') }}">Dashboard</a></li>
+            <li><a href="{{ url_for('main.logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+    <div class="content">
+        <h2>Dashboard</h2>
+        <h3>Welcome, {{ current_user.username }}</h3>
 
-    <h1>Welcome to your dashboard!</h1>
+        <div class="upload-section">
+            <h3>Upload Literature PDF</h3>
+            <form method="POST" action="{{ url_for('main.upload') }}" enctype="multipart/form-data">
+                <div>
+                    <label for="file">Choose PDF file:</label><br>
+                    <input type="file" id="file" name="file" accept="application/pdf" required>
+                </div>
+                <div>
+                    <button type="submit">Upload</button>
+                </div>
+            </form>
+        </div>
+
+        <div class="history-section">
+            <h3>Upload History</h3>
+            <!-- History will be populated here -->
+        </div>
+    </div>
 </body>
 </html>
