@@ -1,9 +1,9 @@
 import os
-
+from datetime import datetime
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from app.models import User
+from app.models import User, UploadHistory
 from app import db
 from flask import flash, redirect, url_for, request
 from werkzeug.utils import secure_filename
@@ -56,7 +56,10 @@ def login():
 @main.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', title='Dashboard')
+    # Retrieve the upload history for the current user
+    history = UploadHistory.query.filter_by(user_id=current_user.id).all()
+    return render_template('dashboard.html', title='Dashboard', history=history)
+
 
 @main.route('/logout')
 @login_required
@@ -81,6 +84,16 @@ def upload():
         filename = secure_filename(file.filename)
         file.save(os.path.join('uploads/', filename))
         # Save upload info to the database if needed
+        upload_history = UploadHistory(
+            username=current_user.username,
+            pdf_name=filename,
+            date_uploaded=datetime.utcnow(),
+            user_id=current_user.id
+        )
+        db.session.add(upload_history)
+        db.session.commit()
+
+
         flash('File successfully uploaded', 'success')
         return redirect(url_for('main.dashboard'))
 
