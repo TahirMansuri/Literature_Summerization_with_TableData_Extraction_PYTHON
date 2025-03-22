@@ -12,8 +12,6 @@ This Flask web application allows users to upload PDF documents, extract text an
    
 2. Install dependencies:
 
-bash
-Copy code
 pip install -r requirements.txt
 Ensure that you have Python 3.x installed on your system.
 
@@ -33,8 +31,6 @@ pdfplumber==0.5.29
 ## Running the Application
 Set up your Flask application:
 
-bash
-Copy code
 python run.py
 Open your web browser and go to http://localhost:5000
 
@@ -50,8 +46,6 @@ Open your web browser and go to http://localhost:5000
 ## License
 This project is licensed under the MIT License - see the LICENSE file for details.
 
-python
-Copy code
 
 ### requirements.txt File
 
@@ -66,9 +60,6 @@ pandas==1.3.1
 nltk==3.6.2
 summarizer==0.0.10
 pdfplumber==0.5.29
-
-bash
-Copy code
 
 ### Git Commands to Push
 
